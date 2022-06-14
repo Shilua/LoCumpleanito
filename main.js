@@ -1,6 +1,18 @@
 require('dotenv').config();
+//config database
+/*import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+
+const firebaseConfig = process.env.FIREBASECONFIG;
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);*/
+
+
+//config discord bot
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const PREFIX = 'fc!';
 var cumples = {
     'adri' : '7 de enero',
     'thomi' : '28 de marzo',
@@ -20,16 +32,36 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
- 
-  if (msg.content === 'cumples') {
+
+    if (!msg.content.startsWith(PREFIX)) {   
+        return
+    };
+
+    const args = msg.content;
+    const command = args.substr(4,args.length);
+    //const command = args.shift().toLocaleLowerCase();
+  if (command === 'todos') {
       msg.channel.send(JSON.stringify(cumples))
   }
-  if (msg.content.startsWith('cumple')) {
-      let nombre = msg.content.split(' ')[1];
+  if (command.startsWith('cumple')) {
+      let nombre = command.split(' ')[1];
+      console.log(nombre)
       let fecha = cumples[nombre];
-      msg.channel.send(fecha);
+      console.log(fecha);
+      if (fecha === undefined) {
+         msg.channel.send('No se cuando cumple 😭');
+      }else {
+        msg.channel.send(fecha);  
+      }
+      
   }
-  if (msg.content === 'hoy cumple') {
+  if(command === 'help'){
+    msg.channel.send('hoy cumple - dice quien cumple hoy');
+    msg.channel.send('todos - todos los cumpleaños'); 
+    msg.channel.send('cumple [nombre] - dice cuando cumple');
+
+  }
+  if (command === 'hoy cumple') {
       let months = [
           'enero',
           'febrero',
@@ -54,7 +86,13 @@ client.on('message', msg => {
               cumplenHoy.push(`${cumple} ✨🎁`)
           }
       }
-      msg.channel.send(cumplenHoy);
+      if (cumplenHoy.length === 0) {
+          msg.channel.send('Hoy no cumple nadie 😥');
+      }
+      else {
+        msg.channel.send(cumplenHoy);  
+      }
+      
   }
 });
 

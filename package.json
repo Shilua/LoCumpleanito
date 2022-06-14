@@ -4,7 +4,8 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js"
   },
   "author": "",
   "license": "ISC",
@@ -13,8 +14,5 @@
     "dotenv": "^10.0.0",
     "firebase": "^9.6.2",
     "nodemon": "^2.0.15"
-  },
-  "scripts": {
-    "start": "node main.js"
-}
+  }
 }
